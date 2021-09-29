@@ -6,7 +6,7 @@ How to use
 
 Hit Api with Method POST
 ```bash
-https://generate-report-document.herokuapp.com/
+https://generate-report-document.herokuapp.com
 ```
 
 Key params
