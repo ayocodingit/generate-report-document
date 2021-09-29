@@ -6,12 +6,11 @@ import cors from 'cors'
 import dir from './utils/dir'
 import verifyApiKey from './utils/verifyApiKey'
 import './utils/schedule'
-import { destroy, writer } from './utils/csv'
+import writeCsv from './write/csv'
 import { item } from './interface'
-import { generateFilePath, filePath } from './utils/generateFilePath'
+import { destroyFile, makeFile } from './utils/file'
 import validate from './validate'
-import { schemaDestroy, schemaWrite } from "./validate/schemas";
-
+import { schemaDestroy, schemaWrite, schemaParams } from "./validate/schemas";
 
 const app = express()
 app.use(cors());
@@ -19,27 +18,29 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/' + dir, express.static(dir))
 
-app.post('/write', validate(schemaWrite), async (req: any, res: any) => {
+app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const data: item[] = req.body.data
     const project: string = req.body.project
-    const filePath: string = generateFilePath(fileName, project)
-    await writer(data, filePath)
-    return res.send(`${process.env.APP_URL}/${filePath}`)
+    const extention: string = req.params.extension
+    const file: string = makeFile(fileName, project, extention)
+    if (extention === 'csv') await writeCsv(data, file)
+    return res.send(`${process.env.APP_URL}/${file}`)
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)
   }
 })
 
-app.post('/destroy', validate(schemaDestroy), async (req: any, res: any) => {
+app.post('/destroy/:extension', validate(schemaDestroy, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const project: string = req.body.project
-    return res.send(await destroy(generateFilePath(fileName, project)))
+    const extention: string = req.params.extension
+    return res.send(await destroyFile(makeFile(fileName, project, extention)))
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)
