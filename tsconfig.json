@@ -5,6 +5,8 @@
     "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
-    "strict": true
-  }
+    "declaration": true,
+    "removeComments": true,
+    "skipLibCheck": true
+  },
 }
