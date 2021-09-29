@@ -20,7 +20,7 @@ app.use('/' + dir, express.static(dir))
 
 app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
-    await verifyApiKey(req.query.api_key)
+    verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const project: string = req.body.project
     const data: item[] = req.body.data
@@ -36,7 +36,7 @@ app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaPara
 
 app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
-    await verifyApiKey(req.query.api_key)
+    verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const project: string = req.body.project
     const extention: string = req.params.extension
@@ -49,7 +49,7 @@ app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaPar
 
 app.post('/download/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
-    await verifyApiKey(req.query.api_key)
+    verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const project: string = req.body.project
     const extention: string = req.params.extension
