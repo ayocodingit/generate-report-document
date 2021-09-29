@@ -1,3 +1,4 @@
 build:
   docker:
-    web: ./docker-config/Dockerfile
+    web: Dockerfile
+    worker: docker-config/Dockerfile
