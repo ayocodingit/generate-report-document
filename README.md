@@ -14,13 +14,11 @@ Key params
 ?api_key=1234
 ```
 
-Path write 
+Write CSV
 ```bash
+# path
 /write/csv
-```
-
-Send Body
-```json
+# body
 {
  "fileName": "aaa-111-&",
  "project": "projectName",
@@ -31,3 +29,26 @@ Send Body
  }]
 }
 ```
+
+Destroy CSV
+```bash
+# path
+/destroy/csv
+# body
+{
+ "fileName": "aaa-111-&",
+ "project": "projectName"
+}
+```
+
+Download CSV
+```bash
+# path
+/download/csv
+# body
+{
+ "fileName": "aaa-111-&",
+ "project": "projectName"
+}
+```
+
