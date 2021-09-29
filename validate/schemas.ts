@@ -1,16 +1,18 @@
 import Joi from 'joi'
 
-const pattern = /^[a-zA-Z]{3,10}-[0-9]{3,10}-[@#$&]{1,3}$/
+const schemaGlobal = {
+  fileName: Joi.string().required().alphanum(),
+  project: Joi.string().required().alphanum()
+}
 
 export const schemaWrite = Joi.object({
+  ...schemaGlobal,
   data: Joi.array().items(
     Joi.object().pattern(/.*/, [Joi.string(), Joi.number(), Joi.boolean(), Joi.date()])
       .keys()
       .min(1)
       .max(1000)
   ).required(),
-  fileName: Joi.string().required().regex(pattern),
-  project: Joi.string().required()
 })
 
 export const schemaParams = Joi.object({
@@ -18,6 +20,5 @@ export const schemaParams = Joi.object({
 })
 
 export const schemaFile = Joi.object({
-  fileName: Joi.string().required().regex(pattern),
-  project: Joi.string().required()
+  ...schemaGlobal
 })

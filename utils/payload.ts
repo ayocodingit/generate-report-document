@@ -5,6 +5,7 @@ const properties = {
   project: ['body', 'project'],
   extension: ['params', 'extension']
 }
+
 export default (req: any): payloadInterface => {
   const item: any = {}
   for (const key in properties) {
