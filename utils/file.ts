@@ -1,6 +1,8 @@
 import dir from './dir'
 import fs from 'fs'
 import { payloadInterface } from '../interface'
+import verifyApiKey from './verifyApiKey'
+import payload from './payload'
 
 const filePath = (project: string): string => {
   const path: string = `${dir}/${project}`
@@ -33,8 +35,15 @@ const urlFile = (file: string): string => {
   return `${process.env.APP_URL}/${file}`
 }
 
+const getFile = (req: any): string => {
+  verifyApiKey(req.query.api_key)
+  const items: payloadInterface = payload(req)
+  return makeFile(items)
+}
+
 export {
   makeFile,
   destroyFile,
-  urlFile
+  urlFile,
+  getFile
 }
