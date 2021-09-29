@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker-config/Dockerfile
+    restart: always
+    container_name: "${APP_NAME}_APP"
+    image: generate-report-document
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      - generate-report-document
+
+networks:
+  generate-report-document:

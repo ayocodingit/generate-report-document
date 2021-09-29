@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-dotenv.config()
 import bodyParser from 'body-parser'
 import express from 'express'
 import cors from 'cors'
@@ -10,10 +9,11 @@ import writeCsv from './write/csv'
 import { item } from './interface'
 import { destroyFile, makeFile } from './utils/file'
 import validate from './validate'
-import { schemaDestroy, schemaWrite, schemaParams } from "./validate/schemas";
+import { schemaDestroy, schemaWrite, schemaParams } from './validate/schemas'
+dotenv.config()
 
 const app = express()
-app.use(cors());
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/' + dir, express.static(dir))
