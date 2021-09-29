@@ -7,7 +7,7 @@ import verifyApiKey from './utils/verifyApiKey'
 import './utils/schedule'
 import writeCsv from './write/csv'
 import { item } from './interface'
-import { destroyFile, makeFile } from './utils/file'
+import { destroyFile, makeFile, urlFile } from './utils/file'
 import validate from './validate'
 import { schemaFile, schemaWrite, schemaParams } from './validate/schemas'
 dotenv.config()
@@ -27,7 +27,7 @@ app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaPara
     const extention: string = req.params.extension
     const file: string = makeFile(fileName, project, extention)
     if (extention === 'csv') await writeCsv(data, file)
-    return res.send(`${process.env.APP_URL}/${file}`)
+    return res.send(urlFile(file))
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)
@@ -54,7 +54,7 @@ app.post('/download/:extension', validate(schemaFile, 'body'), validate(schemaPa
     const project: string = req.body.project
     const extention: string = req.params.extension
     const file: string = makeFile(fileName, project, extention)
-    return res.send(`${process.env.APP_URL}/${file}`)
+    return res.send(urlFile(file))
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)

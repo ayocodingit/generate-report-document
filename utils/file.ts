@@ -11,22 +11,29 @@ const filePath = (project: string): string => {
   return path
 }
 
+const checkFileDoesntExist = (file: string): void => {
+    if (!fs.existsSync(file)) throw Error('File not found !')
+}
+
 const makeFile = (fileName: string, project: string, extension: string): string => {
   return `${filePath(project)}/${fileName}.${extension}`
 }
 
 const destroyFile = (file: string): Promise<string> => {
+  checkFileDoesntExist(file);
   return new Promise(resolve => {
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file)
-      resolve('Succesfully deleted ...')
-    } else {
-      throw Error('File not found !')
-    }
+    fs.unlinkSync(file)
+    resolve('Succesfully deleted ...')
   })
+}
+
+const urlFile = (file: string): string => {
+  checkFileDoesntExist(file);
+  return `${process.env.APP_URL}/${file}`
 }
 
 export {
   makeFile,
-  destroyFile
+  destroyFile,
+  urlFile
 }
