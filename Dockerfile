@@ -24,6 +24,6 @@ USER pptruser
 
 EXPOSE ${PORT}
 
-RUN chmod +x ./docker-config/entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
-ENTRYPOINT [ "./docker-config/entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]

@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker-config/Dockerfile
+      dockerfile: Dockerfile
     restart: always
     container_name: "${APP_NAME}_APP"
     image: generate-report-document
