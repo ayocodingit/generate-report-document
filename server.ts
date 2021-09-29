@@ -9,7 +9,7 @@ import writeCsv from './write/csv'
 import { item } from './interface'
 import { destroyFile, makeFile } from './utils/file'
 import validate from './validate'
-import { schemaDestroy, schemaWrite, schemaParams } from './validate/schemas'
+import { schemaFile, schemaWrite, schemaParams } from './validate/schemas'
 dotenv.config()
 
 const app = express()
@@ -34,13 +34,27 @@ app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaPara
   }
 })
 
-app.post('/destroy/:extension', validate(schemaDestroy, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
+app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
     const fileName: string = req.body.fileName
     const project: string = req.body.project
     const extention: string = req.params.extension
     return res.send(await destroyFile(makeFile(fileName, project, extention)))
+  } catch (error: any) {
+    console.log(error.message)
+    return res.status(403).send(error.message)
+  }
+})
+
+app.post('/download/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
+  try {
+    await verifyApiKey(req.query.api_key)
+    const fileName: string = req.body.fileName
+    const project: string = req.body.project
+    const extention: string = req.params.extension
+    const file: string = makeFile(fileName, project, extention)
+    return res.send(`${process.env.APP_URL}/${file}`)
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)

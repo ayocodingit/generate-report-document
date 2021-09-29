@@ -17,7 +17,7 @@ export const schemaParams = Joi.object({
   extension: Joi.string().valid('csv')
 })
 
-export const schemaDestroy = Joi.object({
+export const schemaFile = Joi.object({
   fileName: Joi.string().required().regex(pattern),
   project: Joi.string().required()
 })
