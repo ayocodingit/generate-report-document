@@ -1,4 +1,4 @@
-# generate-report-document
+# Generate Report Document
 
 This package for generate report big file use CSV
 
@@ -14,7 +14,12 @@ Key params
 ?api_key=1234
 ```
 
-Send Body 
+Path write 
+```bash
+/write/csv
+```
+
+Send Body
 ```json
 {
  "fileName": "aaa-111-&",
