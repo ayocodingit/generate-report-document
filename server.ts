@@ -6,10 +6,11 @@ import dir from './utils/dir'
 import verifyApiKey from './utils/verifyApiKey'
 import './utils/schedule'
 import writeCsv from './write/csv'
-import { item } from './interface'
+import { itemInterface } from './interface'
 import { destroyFile, makeFile, urlFile } from './utils/file'
 import validate from './validate'
 import { schemaFile, schemaWrite, schemaParams } from './validate/schemas'
+import payload from './utils/payload'
 dotenv.config()
 
 const app = express()
@@ -21,12 +22,9 @@ app.use('/' + dir, express.static(dir))
 app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const project: string = req.body.project
-    const data: item[] = req.body.data
-    const extention: string = req.params.extension
-    const file: string = makeFile(fileName, project, extention)
-    if (extention === 'csv') await writeCsv(data, file)
+    const data: itemInterface[] = req.body.data
+    const file: string = makeFile(payload(req))
+    if (req.params.extension === 'csv') await writeCsv(data, file)
     return res.send(urlFile(file))
   } catch (error: any) {
     console.log(error.message)
@@ -37,10 +35,8 @@ app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaPara
 app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const project: string = req.body.project
-    const extention: string = req.params.extension
-    return res.send(await destroyFile(makeFile(fileName, project, extention)))
+    const file: string = makeFile(payload(req))
+    return res.send(await destroyFile(file))
   } catch (error: any) {
     console.log(error.message)
     return res.status(403).send(error.message)
@@ -50,10 +46,7 @@ app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaPar
 app.post('/download/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const project: string = req.body.project
-    const extention: string = req.params.extension
-    const file: string = makeFile(fileName, project, extention)
+    const file: string = makeFile(payload(req))
     return res.send(urlFile(file))
   } catch (error: any) {
     console.log(error.message)

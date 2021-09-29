@@ -1,8 +1,8 @@
 import fs from 'fs'
 import * as json2csv from 'json2csv'
-import { item } from '../interface'
+import { itemInterface } from '../interface'
 
-const csv = (data: item[], file: string): Promise<string> => {
+const csv = (data: itemInterface[], file: string): Promise<string> => {
   return new Promise(resolve => {
     fs.stat(file, () => {
       let rows: string

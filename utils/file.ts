@@ -1,5 +1,6 @@
 import dir from './dir'
 import fs from 'fs'
+import { payloadInterface } from '../interface'
 
 const filePath = (project: string): string => {
   const path: string = `${dir}/${project}`
@@ -15,8 +16,8 @@ const checkFileDoesntExist = (file: string): void => {
     if (!fs.existsSync(file)) throw Error('File not found !')
 }
 
-const makeFile = (fileName: string, project: string, extension: string): string => {
-  return `${filePath(project)}/${fileName}.${extension}`
+const makeFile = (payload: payloadInterface): string => {
+  return `${filePath(payload.project)}/${payload.fileName}.${payload.extension}`
 }
 
 const destroyFile = (file: string): Promise<string> => {

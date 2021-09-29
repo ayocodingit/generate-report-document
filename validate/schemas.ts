@@ -8,7 +8,7 @@ export const schemaWrite = Joi.object({
       .keys()
       .min(1)
       .max(1000)
-  ),
+  ).required(),
   fileName: Joi.string().required().regex(pattern),
   project: Joi.string().required()
 })
