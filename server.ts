@@ -21,9 +21,7 @@ app.use('/' + dir, express.static(dir))
 app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const data: item[] = req.body.data
-    const project: string = req.body.project
+    const { fileName, project, data } = req.body
     const extention: string = req.params.extension
     const file: string = makeFile(fileName, project, extention)
     if (extention === 'csv') await writeCsv(data, file)
@@ -37,8 +35,7 @@ app.post('/write/:extension', validate(schemaWrite, 'body'), validate(schemaPara
 app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const project: string = req.body.project
+    const { fileName, project } = req.body
     const extention: string = req.params.extension
     return res.send(await destroyFile(makeFile(fileName, project, extention)))
   } catch (error: any) {
@@ -50,8 +47,7 @@ app.post('/destroy/:extension', validate(schemaFile, 'body'), validate(schemaPar
 app.post('/download/:extension', validate(schemaFile, 'body'), validate(schemaParams, 'params'), async (req: any, res: any) => {
   try {
     await verifyApiKey(req.query.api_key)
-    const fileName: string = req.body.fileName
-    const project: string = req.body.project
+    const { fileName, project } = req.body
     const extention: string = req.params.extension
     const file: string = makeFile(fileName, project, extention)
     return res.send(`${process.env.APP_URL}/${file}`)
