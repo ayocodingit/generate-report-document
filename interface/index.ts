@@ -7,4 +7,3 @@ export interface payloadInterface {
   project: string,
   extension: string
 }
-

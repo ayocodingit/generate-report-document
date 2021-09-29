@@ -13,7 +13,7 @@ const filePath = (project: string): string => {
 }
 
 const checkFileDoesntExist = (file: string): void => {
-    if (!fs.existsSync(file)) throw Error('File not found !')
+  if (!fs.existsSync(file)) throw Error('File not found !')
 }
 
 const makeFile = (payload: payloadInterface): string => {
@@ -21,7 +21,7 @@ const makeFile = (payload: payloadInterface): string => {
 }
 
 const destroyFile = (file: string): Promise<string> => {
-  checkFileDoesntExist(file);
+  checkFileDoesntExist(file)
   return new Promise(resolve => {
     fs.unlinkSync(file)
     resolve('Succesfully deleted ...')
@@ -29,7 +29,7 @@ const destroyFile = (file: string): Promise<string> => {
 }
 
 const urlFile = (file: string): string => {
-  checkFileDoesntExist(file);
+  checkFileDoesntExist(file)
   return `${process.env.APP_URL}/${file}`
 }
 
