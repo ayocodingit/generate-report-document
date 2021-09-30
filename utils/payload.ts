@@ -2,8 +2,7 @@ import { payloadInterface } from '../interface'
 
 const properties = {
   fileName: ['body', 'fileName'],
-  project: ['body', 'project'],
-  extension: ['params', 'extension']
+  project: ['body', 'project']
 }
 
 export default (req: any): payloadInterface => {
@@ -15,6 +14,6 @@ export default (req: any): payloadInterface => {
     }
     item[key] = payload
   }
-
+  item.extension = 'csv'
   return item
 }

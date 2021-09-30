@@ -1,11 +1,10 @@
 import dir from './dir'
 import fs from 'fs'
 import { payloadInterface } from '../interface'
-import verifyApiKey from './verifyApiKey'
 import payload from './payload'
 
-const filePath = (project: string): string => {
-  const path: string = `${dir}/${project}`
+const filePath = (project: string, extension: string): string => {
+  const path: string = `${dir}/${project}/${extension}`
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path, {
       recursive: true
@@ -19,15 +18,13 @@ const checkFileDoesntExist = (file: string): void => {
 }
 
 const makeFile = (payload: payloadInterface): string => {
-  return `${filePath(payload.project)}/${payload.fileName}.${payload.extension}`
+  return `${filePath(payload.project, payload.extension)}/${payload.fileName}.${payload.extension}`
 }
 
-const destroyFile = (file: string): Promise<string> => {
+const destroyFile = (file: string): string => {
   checkFileDoesntExist(file)
-  return new Promise(resolve => {
-    fs.unlinkSync(file)
-    resolve('Succesfully deleted ...')
-  })
+  fs.unlinkSync(file)
+  return 'Succesfully deleted ...'
 }
 
 const urlFile = (file: string): string => {
@@ -36,14 +33,23 @@ const urlFile = (file: string): string => {
 }
 
 const getFile = (req: any): string => {
-  verifyApiKey(req.query.api_key)
   const items: payloadInterface = payload(req)
   return makeFile(items)
+}
+
+const fileReplace = (file: string, source: string, destination: string): string => {
+  return file.split('/').map(item => {
+    if (item == source) return destination
+    return item.replace(source, destination)
+  }).join('/')
 }
 
 export {
   makeFile,
   destroyFile,
   urlFile,
-  getFile
+  getFile,
+  filePath,
+  fileReplace
+
 }
