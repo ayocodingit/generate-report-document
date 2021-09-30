@@ -39,7 +39,7 @@ const getFile = (req: any): string => {
 
 const fileReplace = (file: string, source: string, destination: string): string => {
   return file.split('/').map(item => {
-    if (item == source) return destination
+    if (item === source) return destination
     return item.replace(source, destination)
   }).join('/')
 }

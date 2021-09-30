@@ -7,3 +7,8 @@ export interface payloadInterface {
   project: string,
   extension: string
 }
+
+export interface responseInterface {
+  csv: string,
+  xlsx: string
+}
