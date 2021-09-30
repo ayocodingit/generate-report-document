@@ -1,8 +1,10 @@
 import Joi from 'joi'
 
+const pattern = /^[a-zA-Z0-9-_]+$/
+
 const schemaGlobal = {
-  fileName: Joi.string().required().alphanum(),
-  project: Joi.string().required().alphanum()
+  fileName: Joi.string().required().regex(pattern),
+  project: Joi.string().required().regex(pattern)
 }
 
 export const schemaWrite = Joi.object({
