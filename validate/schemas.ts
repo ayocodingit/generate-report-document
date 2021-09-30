@@ -10,7 +10,7 @@ const schemaGlobal = {
 export const schemaWrite = Joi.object({
   ...schemaGlobal,
   data: Joi.array().items(
-    Joi.object().pattern(/.*/, [Joi.string(), Joi.number(), Joi.boolean(), Joi.date()])
+    Joi.object().pattern(/.*/, [Joi.string(), Joi.number(), Joi.boolean(), Joi.date(), Joi.allow(null)])
       .keys()
       .min(1)
       .max(1000)
