@@ -3,14 +3,12 @@ import bodyParser from 'body-parser'
 import express from 'express'
 import cors from 'cors'
 import dir from './utils/dir'
-import verifyApiKey from './utils/verifyApiKey'
 import './utils/schedule'
 import writeCsv from './write/csv'
 import { itemInterface } from './interface'
-import { destroyFile, getFile, makeFile, urlFile } from './utils/file'
+import { destroyFile, getFile, urlFile } from './utils/file'
 import validate from './validate'
 import { schemaFile, schemaWrite, schemaParams } from './validate/schemas'
-import payload from './utils/payload'
 dotenv.config()
 
 const app = express()
