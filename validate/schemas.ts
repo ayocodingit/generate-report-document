@@ -13,8 +13,9 @@ export const schemaWrite = Joi.object({
     Joi.object().pattern(/.*/, [Joi.string(), Joi.number(), Joi.boolean(), Joi.date(), Joi.allow(null)])
       .keys()
       .min(1)
-      .max(1000)
-  ).required(),
+  )
+  .required()
+  .max(1000),
 })
 
 export const schemaParams = Joi.object({
