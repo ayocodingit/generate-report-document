@@ -1,5 +1,5 @@
 export interface itemInterface {
-  [key: string]: string | number | boolean | Date
+  [key: string]: string | number | boolean | Date | object
 }
 
 export interface payloadInterface {

@@ -28,8 +28,7 @@ const destroyFile = (file: string): string => {
 }
 
 const urlFile = (file: string): string => {
-  checkFileDoesntExist(file)
-  return `${process.env.APP_URL}/${file}`
+  return fs.existsSync(file) ? `${process.env.APP_URL}/${file}` : null
 }
 
 const getFile = (req: any): string => {
